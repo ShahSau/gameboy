@@ -2,7 +2,7 @@
 const nextConfig = {
     swcMinify: true,
     images: {
-    domains: ['upload.wikimedia.org'],
+    domains: ['upload.wikimedia.org','www.freetogame.com'],
   }
 }
 

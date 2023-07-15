@@ -62,7 +62,7 @@ const Navbar = ()=> {
               display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
                 <Menu key={link}>
-                    <MenuButton as={Button} variant='link' color='white' cursor='pointer' key={link}>
+                    <MenuButton as={Button} variant='link' color='whiteAlpha.700' cursor='pointer' key={link}>
                         {link}
                     </MenuButton>
                     {link === 'Platform' ? (
@@ -89,7 +89,7 @@ const Navbar = ()=> {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-              <Link as={NextLink} href='/search' variant='link' color='white' cursor='pointer' >
+              <Link as={NextLink} href='/search' variant='link' color='whiteAlpha.700' cursor='pointer' fontSize='2xl' mr={[0, 6, 12, 12]}>
                 <BsSearch />
                 </Link>
           </Flex>
