@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
 import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
@@ -16,11 +19,12 @@ const settings = {
   slidesToScroll: 1,
 };
 
-const Carousel=({cards})=> {
+function Carousel({ cards }) {
+  // eslint-disable-next-line no-unused-expressions
   cards.length === 0 && cards.push({
-    "id": 0,
-    "image": "https://www.vhv.rs/dpng/d/553-5531706_dummy-image-image-not-available-hd-png-download.png"
-})
+    id: 0,
+    image: 'https://www.vhv.rs/dpng/d/553-5531706_dummy-image-image-not-available-hd-png-download.png',
+  });
   const [slider, setSlider] = useState(null);
   // These are the breakpoints which changes the position of the buttons as the screen size changes
   const top = useBreakpointValue({ base: '90%', md: '50%' });
@@ -28,10 +32,11 @@ const Carousel=({cards})=> {
 
   return (
     <Box
-      position={'relative'}
-      height={'400px'}
-      width={'full'}
-      overflow={'hidden'}>
+      position="relative"
+      height="400px"
+      width="full"
+      overflow="hidden"
+    >
       {/* CSS files for react-slick */}
       <link
         rel="stylesheet"
@@ -52,9 +57,10 @@ const Carousel=({cards})=> {
         position="absolute"
         left={side}
         top={top}
-        transform={'translate(0%, -50%)'}
+        transform="translate(0%, -50%)"
         zIndex={2}
-        onClick={() => slider?.slickPrev()}>
+        onClick={() => slider?.slickPrev()}
+      >
         <BiLeftArrowAlt />
       </IconButton>
       {/* Right Button */}
@@ -65,18 +71,21 @@ const Carousel=({cards})=> {
         position="absolute"
         right={side}
         top={top}
-        transform={'translate(0%, -50%)'}
+        transform="translate(0%, -50%)"
         zIndex={2}
-        onClick={() => slider?.slickNext()}>
+        onClick={() => slider?.slickNext()}
+      >
         <BiRightArrowAlt />
       </IconButton>
       {/* Slider */}
+      {/* eslint-disable-next-line no-shadow */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((url, index) => (
           <Box
+            // eslint-disable-next-line react/no-array-index-key
             key={index}
-            mt='6'
-            height={'md'}
+            mt="6"
+            height="md"
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"

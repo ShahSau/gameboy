@@ -1,14 +1,16 @@
-import React, {useState} from 'react'
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+import React, { useState } from 'react';
 import { Box, SimpleGrid, GridItem } from '@chakra-ui/react';
-import MostPlayed from './MostPlayed'
-import RecentlyAdded from './RecentlyAdded'
+import MostPlayed from './MostPlayed';
+import RecentlyAdded from './RecentlyAdded';
 import Bar from './Bar';
 
-const Section = () => {
-  const [showBar, setShowBar] = useState(false)
+function Section() {
+  const [showBar, setShowBar] = useState(false);
 
   setTimeout(() => {
-    setShowBar(true)
+    setShowBar(true);
   }, 1000);
   return (
     <Box
@@ -17,8 +19,8 @@ const Section = () => {
     >
       <SimpleGrid
         display={{
-          base: "initial",
-          md: "grid",
+          base: 'initial',
+          md: 'grid',
         }}
         columns={{
           md: 3,
@@ -53,12 +55,11 @@ const Section = () => {
           </Box>
         </GridItem>
       </SimpleGrid>
-      
+
       {showBar && <Bar />}
     </Box>
 
-  
-  )
+  );
 }
 
 export default Section;

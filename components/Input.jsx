@@ -1,55 +1,52 @@
-import { FormEvent, ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Stack,
   FormControl,
   Input,
-  Button,
-  useColorModeValue,
   Heading,
   Text,
   Container,
   Flex,
   Link,
 } from '@chakra-ui/react';
-// import { CheckIcon } from '@chakra-ui/icons';
-import NextLink from 'next/link'
+import NextLink from 'next/link';
 
-const InputBox =()=> {
+function InputBox() {
   const [email, setEmail] = useState('');
   const [state, setState] = useState('initial');
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
 
-//   put image as background just like https://www.ifixit.com/
   return (
     <Flex
-       minH={'50vh'}
-      align={'center'}
-      justify={'center'}
-      rounded={'xl'}
-      backgroundImage={
-      'url(https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80)'
-      }
-      >
+      minH="50vh"
+      align="center"
+      justify="center"
+      rounded="xl"
+      backgroundImage="url(https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80)"
+    >
       <Container
-        maxW={'lg'}
+        maxW="lg"
         // bg={useColorModeValue('white', 'whiteAlpha.100')}
-        bg='transparent'
-        boxShadow={'xl'}
-        rounded={'lg'}
+        bg="transparent"
+        boxShadow="xl"
+        rounded="lg"
         p={6}
-        direction={'column'}>
+        direction="column"
+      >
         <Heading
-          as={'h2'}
+          as="h2"
           fontSize={{ base: 'xl', sm: '2xl' }}
-          textAlign={'center'}
-          color='whiteAlpha.700'
-          mb={5}>
+          textAlign="center"
+          color="whiteAlpha.700"
+          mb={5}
+        >
           Discover the best free-to-play games!
         </Heading>
         <Stack
           direction={{ base: 'column', md: 'row' }}
-          as={'form'}
-          spacing={'12px'}
+          as="form"
+          spacing="12px"
           onSubmit={(e) => {
             e.preventDefault();
             setError(false);
@@ -66,35 +63,32 @@ const InputBox =()=> {
             //   setState('success');
             // }, 1000);
           }}
-          >
-          <FormControl justifyContent='center' alignItems='center'>
+        >
+          <FormControl justifyContent="center" alignItems="center">
             <Input
-              variant={'solid'}
+              variant="solid"
               borderWidth={1}
-              color={'whiteAlpha.700'}
-              bg='whiteAlpha.300'
+              color="whiteAlpha.700"
+              bg="whiteAlpha.300"
               _placeholder={{
                 color: 'gray.400',
               }}
-              borderColor='whiteAlpha.700'
-              id={'email'}
-              type={'email'}
+              borderColor="whiteAlpha.700"
+              id="email"
+              type="email"
               // focusBorderColor='red'
-              placeholder={'Search...'}
-              aria-label={'Search'}
+              placeholder="Search..."
+              aria-label="Search"
               value={email}
               disabled={state !== 'initial'}
-              onChange={(e) =>{
-                setEmail(e.target.value)
-                console.log(e.target.value)
-              }
-               
-
-              }
+              onChange={(e) => {
+                setEmail(e.target.value);
+                // console.log(e.target.value);
+              }}
             />
           </FormControl>
           {/* <FormControl w={{ base: '100%', md: '40%' }}> */}
-            {/* <Button
+          {/* <Button
               colorScheme={state === 'success' ? 'green' : 'blue'}
               isLoading={state === 'submitting'}
               w="100%"
@@ -111,18 +105,18 @@ const InputBox =()=> {
             ? 'Oh no an error occured! 😢 Please try again later.'
             : "You won't receive any spam! ✌️"}
         </Text> */}
-        <Link as={NextLink} href='/filter' variant='link' color='whiteAlpha.700' cursor='pointer'>
+        <Link as={NextLink} href="/filter" variant="link" color="whiteAlpha.700" cursor="pointer">
           <Text
             mt={2}
-            textAlign={'center'}
-            color={'whiteAlpha.700'}>
-              or search by filters
+            textAlign="center"
+            color="whiteAlpha.700"
+          >
+            or search by filters
           </Text>
         </Link>
       </Container>
     </Flex>
   );
 }
-
 
 export default InputBox;
