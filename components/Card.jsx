@@ -5,8 +5,8 @@ import NextLink from 'next/link'
 const Card = ({details}) => {
   return (
     <Link as={NextLink} href={`/game/${details.id}`} key={details.id} variant='link' color='white' cursor='pointer'  
-                _hover={{textDecoration:'none',transform:'scale(1.05)' ,transition:'all .2s ease-in-out' }}
-            >
+            _hover={{textDecoration:'none',transform:'scale(1.05)' ,transition:'all .2s ease-in-out' }}
+        >
         <Box
             role={'group'}
             p={6}

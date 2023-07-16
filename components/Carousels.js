@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
-// Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
-// And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 
 // Settings for the slider
@@ -18,8 +16,16 @@ const settings = {
   slidesToScroll: 1,
 };
 
-export default function Carousel({cards}) {
+const Carousel=({cards})=> {
+  cards.length === 0 && cards.push({
+    "id": 0,
+    "image": "https://www.vhv.rs/dpng/d/553-5531706_dummy-image-image-not-available-hd-png-download.png"
+})
   const [slider, setSlider] = useState(null);
+  // These are the breakpoints which changes the position of the buttons as the screen size changes
+  const top = useBreakpointValue({ base: '90%', md: '50%' });
+  const side = useBreakpointValue({ base: '30%', md: '10px' });
+
   return (
     <Box
       position={'relative'}
@@ -38,6 +44,32 @@ export default function Carousel({cards}) {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
+      {/* Left Button */}
+      <IconButton
+        aria-label="left-arrow"
+        colorScheme="whiteAlpha"
+        borderRadius="full"
+        position="absolute"
+        left={side}
+        top={top}
+        transform={'translate(0%, -50%)'}
+        zIndex={2}
+        onClick={() => slider?.slickPrev()}>
+        <BiLeftArrowAlt />
+      </IconButton>
+      {/* Right Button */}
+      <IconButton
+        aria-label="right-arrow"
+        colorScheme="whiteAlpha"
+        borderRadius="full"
+        position="absolute"
+        right={side}
+        top={top}
+        transform={'translate(0%, -50%)'}
+        zIndex={2}
+        onClick={() => slider?.slickNext()}>
+        <BiRightArrowAlt />
+      </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {cards.map((url, index) => (
@@ -56,3 +88,5 @@ export default function Carousel({cards}) {
     </Box>
   );
 }
+
+export default Carousel;

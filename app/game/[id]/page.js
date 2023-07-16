@@ -1,6 +1,6 @@
 'use client'
 import React, {useState} from 'react'
-import { Box, Flex, Spacer, Text, Stat, StatNumber,StatLabel, Spinner,useColorModeValue,SimpleGrid} from '@chakra-ui/react';
+import { Box, Flex, Spacer, Text, Stat, Stack, StatNumber,StatLabel, Spinner,useColorModeValue,SimpleGrid} from '@chakra-ui/react';
 import { BsWindows,BsBrowserChrome } from 'react-icons/bs';
 import { Avatar } from '@chakra-ui/avatar';
 import { usePathname } from 'next/navigation';
@@ -107,7 +107,7 @@ const Page =() =>{
           if (!isActive()) return;
         },[]  
     )
-
+    
     useAsyncEffect(
         async isActive =>{
           try{
@@ -141,7 +141,7 @@ const Page =() =>{
             </Box>
             <Box marginTop='4'>
                 <Text fontSize='lg' marginBottom='2' fontWeight='bold' color='whiteAlpha.700'>About {states.details.title}:</Text>
-                <Text lineHeight='2' color='whiteAlpha.700'>{states.details.description}</Text>
+                <Text lineHeight='2' color='whiteAlpha.700' >{states.details.description}</Text>
             </Box>
             <Text fontSize='lg' marginBottom='2' marginTop='10' fontWeight='bold' color='whiteAlpha.700'>Additional Info:</Text>
             <Flex flexWrap='wrap' textTransform='uppercase' justifyContent='space-between' color='whiteAlpha.700'>
@@ -149,7 +149,7 @@ const Page =() =>{
                     <Info key={index} role={data.role} data={data.data} />
                 ))}
             </Flex>
-            <Text fontSize='lg' marginBottom='2' marginTop='10' fontWeight='bold' color='whiteAlpha.700'>Minimum System Requirements:</Text>
+            {states.details?.minimum_system_requirements && <Text fontSize='lg' marginBottom='2' marginTop='10' fontWeight='bold' color='whiteAlpha.700'>Minimum System Requirements:</Text>}
             <Box maxW="7xl" mx={'auto'} pt={5} px={{ base: 2, sm: 12, md: 17 }} >
                 <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
             {states.details?.minimum_system_requirements && Object.entries(states.details?.minimum_system_requirements).map((data, index) =>(
@@ -158,11 +158,19 @@ const Page =() =>{
             </SimpleGrid>
             </Box>
             <Text fontSize='lg' marginBottom='2' marginTop='10' fontWeight='bold' color='whiteAlpha.700'>People also viewd:</Text>
-            <Flex flexWrap='wrap' mt='3'>
+            <Stack 
+            direction={{ base: 'column', md: 'row' }}
+            // textAlign="center"
+            // justify="center"
+            // spacing={{ base: 4, lg: 4 }}
+            // py={10}
+            gap='0'
+            flexWrap='wrap'
+            >
                 {suggestion.map((data, index) =>(
                     <Card key={index} details={data}/>
                 ))}
-            </Flex>
+            </Stack>
         </Box>
         }
         {states.loading && 
