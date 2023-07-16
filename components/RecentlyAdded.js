@@ -87,7 +87,7 @@ const RecentlyAdded = () => {
                       {game.genre}
                     </Button>
                     <Spacer />
-                    <Text fontWeight='bold' fontSize='lg'>{game.platform === 'PC (Windows)' ? <BsWindows /> :<BsBrowserChrome /> }</Text>
+                    <Text fontWeight='bold' mt='2' fontSize='xl'>{game.platform === 'PC (Windows)' ? <BsWindows /> :<BsBrowserChrome /> }</Text>
                   </CardFooter>
                 </Stack>
               </Card>
