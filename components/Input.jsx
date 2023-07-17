@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import {
   Stack,
@@ -11,10 +13,9 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
-function InputBox() {
-  const [email, setEmail] = useState('');
+function InputBox({ parentFunction }) {
+  const [input, setInput] = useState('');
   const [state, setState] = useState('initial');
-  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
 
   return (
@@ -27,7 +28,6 @@ function InputBox() {
     >
       <Container
         maxW="lg"
-        // bg={useColorModeValue('white', 'whiteAlpha.100')}
         bg="transparent"
         boxShadow="xl"
         rounded="lg"
@@ -47,22 +47,6 @@ function InputBox() {
           direction={{ base: 'column', md: 'row' }}
           as="form"
           spacing="12px"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setError(false);
-            setState('submitting');
-
-            // remove this code and implement your submit logic right here
-            // setTimeout(() => {
-            //   if (email === 'fail@example.com') {
-            //     setError(true);
-            //     setState('initial');
-            //     return;
-            //   }
-
-            //   setState('success');
-            // }, 1000);
-          }}
         >
           <FormControl justifyContent="center" alignItems="center">
             <Input
@@ -74,37 +58,19 @@ function InputBox() {
                 color: 'gray.400',
               }}
               borderColor="whiteAlpha.700"
-              id="email"
-              type="email"
-              // focusBorderColor='red'
+              id="input"
+              type="input"
               placeholder="Search..."
               aria-label="Search"
-              value={email}
+              value={input}
               disabled={state !== 'initial'}
               onChange={(e) => {
-                setEmail(e.target.value);
-                // console.log(e.target.value);
+                setInput(e.target.value);
+                parentFunction(e.target.value);
               }}
             />
           </FormControl>
-          {/* <FormControl w={{ base: '100%', md: '40%' }}> */}
-          {/* <Button
-              colorScheme={state === 'success' ? 'green' : 'blue'}
-              isLoading={state === 'submitting'}
-              w="100%"
-              type={state === 'success' ? 'button' : 'submit'}>
-              {state === 'success' ? 'check' : 'Submit'}
-            </Button> */}
-          {/* </FormControl> */}
         </Stack>
-        {/* <Text
-          mt={2}
-          textAlign={'center'}
-          color={error ? 'red.500' : 'gray.500'}>
-          {error
-            ? 'Oh no an error occured! 😢 Please try again later.'
-            : "You won't receive any spam! ✌️"}
-        </Text> */}
         <Link as={NextLink} href="/filter" variant="link" color="whiteAlpha.700" cursor="pointer">
           <Text
             mt={2}

@@ -6,7 +6,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Stack, Spinner } from '@chakra-ui/react';
+import {
+  Stack, Spinner, Text,
+} from '@chakra-ui/react';
 import useAsyncEffect from 'use-async-effect';
 import InputBox from '../../components/Input';
 import { getAllGames } from '../api/fetchApi';
@@ -39,28 +41,48 @@ function Page() {
     if (!isActive()) return null;
   }, []);
 
-  // showing first 50 games on initial load
-  if (states.input === '') {
-    states.games = states.games.slice(0, 50);
-  }
-
+  const handleSearch = (e) => {
+    const input = e;
+    setStates({
+      ...states,
+      input,
+    });
+  };
+  const filterData = (data) => {
+    const filteredData = data.filter((game) => (
+      game.title.toLowerCase().includes(states.input.toLowerCase())
+    ));
+    return filteredData;
+  };
   return (
     <>
       {(!states.loading && states.games.length !== 0)
     && (
     <>
-      <InputBox />
-      {/* <Text fontSize='xl' marginBottom='2'
-       marginTop='10' fontWeight='bold' color='whiteAlpha.700' >Search Results: </Text> */}
+      <InputBox parentFunction={handleSearch} />
       <Stack
         direction={{ base: 'column', md: 'row' }}
         gap="0"
         flexWrap="wrap"
         mt="10"
       >
-        {states.games.map((data, index) => (
-          <Card key={index} details={data} />
-        ))}
+        {filterData(states.games).length !== 0
+          ? filterData(states.games).map((data, index) => (
+            <Card key={index} details={data} />
+          ))
+          : (
+            <Text
+              mt={2}
+              mb={20}
+              textAlign="center"
+              color="white"
+              fontWeight={700}
+              lineHeight={1.2}
+              fontSize="3xl"
+            >
+              Oops.. No results found
+            </Text>
+          )}
       </Stack>
     </>
     )}
