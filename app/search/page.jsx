@@ -7,7 +7,7 @@
 
 import React, { useState } from 'react';
 import {
-  Stack, Spinner, Text,
+  Stack, Text,
 } from '@chakra-ui/react';
 import useAsyncEffect from 'use-async-effect';
 import InputBox from '../../components/Input';
@@ -86,7 +86,8 @@ function Page() {
       </Stack>
     </>
     )}
-      {states.loading && <Spinner size="xl" m="44" color="whiteAlpha.700" thickness="4px" />}
+      {/* {states.loading &&
+        <Spinner size="xl" m="44" color="whiteAlpha.700" thickness="4px" />} */}
     </>
   );
 }

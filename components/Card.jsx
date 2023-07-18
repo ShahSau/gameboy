@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
@@ -71,7 +72,18 @@ function Card({ details }) {
           </Heading>
           <Stack direction="row" align="center">
             <Text fontWeight={800} fontSize="xl">
-              { details.platform === 'PC (Windows)' ? <BsWindows /> : <BsBrowserChrome /> }
+              { details.platform === 'PC (Windows), Web Browser'
+                ? (
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                  >
+                    <BsWindows />
+                    {' '}
+                    <BsBrowserChrome />
+                  </Stack>
+                )
+                : details.platform === 'PC (Windows)' ? <BsWindows /> : <BsBrowserChrome />}
             </Text>
           </Stack>
         </Stack>

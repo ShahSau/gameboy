@@ -11,7 +11,7 @@
 
 import React, { useState } from 'react';
 import {
-  Box, Flex, Text, Stat, Stack, StatNumber, StatLabel, Spinner, useColorModeValue, SimpleGrid,
+  Box, Flex, Text, Stat, Stack, StatNumber, StatLabel, useColorModeValue, SimpleGrid,
 } from '@chakra-ui/react';
 import { usePathname } from 'next/navigation';
 import useAsyncEffect from 'use-async-effect';
@@ -188,7 +188,7 @@ function Page() {
       {states.loading
         && (
         <Box margin="auto" p="44" alignItems="center" justifyContent="center">
-          <Spinner size="xl" color="whiteAlpha.700" thickness="4px" />
+          {/* <Spinner size="xl" color="whiteAlpha.700" thickness="4px" /> */}
         </Box>
         )}
 

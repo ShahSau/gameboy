@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { filterOptions } from '../utils/filterOptions';
@@ -26,6 +27,8 @@ const Links = ['Platform', 'Popular Categories'];
 function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filters] = useState(filterOptions);
+  const pathname = usePathname();
+  console.warn(pathname, typeof pathname);
 
   return (
     <Box px={4}>
@@ -51,6 +54,7 @@ function Navbar() {
               height={50}
             />
           </Link>
+          {pathname !== '/filter' && (
           <HStack
             as="nav"
             spacing={4}
@@ -83,6 +87,7 @@ function Navbar() {
               </Menu>
             ))}
           </HStack>
+          )}
         </HStack>
         <Flex alignItems="center">
           <Link as={NextLink} href="/search" variant="link" color="whiteAlpha.700" cursor="pointer" fontSize="2xl" mr={[0, 6, 12, 12]}>

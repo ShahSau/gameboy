@@ -1,33 +1,86 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react/prop-types */
 /* eslint-disable consistent-return */
 
 'use client';
 
 import React, { useState } from 'react';
-// import Image from 'next/image';
 import {
-  Flex, Box, Text, Icon,
+  Flex, Box, Text, Icon, Select,
 } from '@chakra-ui/react';
 import { BsFilter } from 'react-icons/bs';
-// import { useRouter } from 'next/router';
-// import Link from 'next/link';
 import useAsyncEffect from 'use-async-effect';
-// import SearchFilters from '../../components/SearchFilters';
-// import Property from '../../components/Property';
-// import noresult from '../../assets/images/noresult.svg';
 import { useSearchParams } from 'next/navigation';
 import Card from '../../components/Card';
 import { getFilteredGames } from '../api/fetchApi';
+import { filterOptions } from '../../utils/filterOptions';
+
+function SearchFilters({
+  filters, changeFilter, platform, category, sort,
+}) {
+  return (
+    <Flex p="4" justifyContent="center" flexWrap="wrap" transition="all .2s ease-in-out">
+      {filters?.map((filter) => {
+        if (filter.page === 'filter' && filter.placeholder === 'Platform') {
+          return (
+            <Box key={filter.queryName}>
+              <Select onChange={(e) => changeFilter(e, [filter.queryName])} placeholder={platform === '' ? filter[0] : platform} bg="whiteAlpha.200" w="fit-content" p="2">
+                {filter?.items?.map((item) => (
+                  item.value !== platform && (
+                  <option value={item.value} key={item.value}>
+                    {item.name}
+                  </option>
+                  )
+                ))}
+              </Select>
+            </Box>
+          );
+        }
+        if (filter.page === 'filter' && filter.placeholder === 'Favourite Categories') {
+          return (
+            <Box key={filter.queryName}>
+              <Select onChange={(e) => changeFilter(e, [filter.queryName])} placeholder={category === '' ? 'All Categories' : category} bg="whiteAlpha.200" w="fit-content" p="2">
+                {filter?.items?.map((item) => (
+                  item.value !== category && (
+                  <option value={item.value} key={item.value}>
+                    {item.name}
+                  </option>
+                  )
+                ))}
+              </Select>
+            </Box>
+          );
+        }
+        if (filter.page === 'filter' && filter.placeholder === 'Sorting') {
+          return (
+            <Box key={filter.queryName}>
+              <Select onChange={(e) => changeFilter(e, [filter.queryName])} placeholder={sort === '' ? 'Sorting By' : sort} bg="whiteAlpha.200" w="fit-content" p="2">
+                {filter?.items?.map((item) => (
+                  item.value !== sort && (
+                  <option value={item.value} key={item.value}>
+                    {item.name}
+                  </option>
+                  )
+                ))}
+              </Select>
+            </Box>
+          );
+        }
+      })}
+    </Flex>
+  );
+}
 
 function Page() {
-  const [searchFilters, setSearchFilters] = useState(false);
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   const searchname = useSearchParams();
 
-  const platform = searchname.get('platform') ?? '';
-  const category = searchname.get('category') ?? '';
-  const sort = '';
+  const [searchFilters, setSearchFilters] = useState(true);
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filters] = useState(filterOptions);
+  const [platform, setPlatform] = useState(searchname.get('platform') ?? '');
+  const [category, setCategory] = useState(searchname.get('category') ?? '');
+  const [sort, setSort] = useState('');
 
   useAsyncEffect(async (isActive) => {
     try {
@@ -41,15 +94,26 @@ function Page() {
     }
 
     if (!isActive()) return null;
-  }, [games]);
+  }, [sort, platform, category]);
 
+  const changeFilter = (e, queryName) => {
+    if (queryName[0] === 'platform') {
+      setPlatform(e.target.value);
+    }
+
+    if (queryName[0] === 'category') {
+      setCategory(e.target.value);
+    }
+
+    if (queryName[0] === 'sort') {
+      setSort(e.target.value);
+    }
+  };
   return (
     <Box>
       <Flex
         onClick={() => setSearchFilters(!searchFilters)}
         cursor="pointer"
-        bg="gray.100"
-        borderBottom="1px"
         borderColor="gray.200"
         p="2"
         fontWeight="black"
@@ -57,15 +121,23 @@ function Page() {
         justifyContent="center"
         alignItems="center"
       >
-        <Text>Search Property By Filters</Text>
+        <Text>Search games By Filters</Text>
         <Icon paddingLeft="2" w="7" as={BsFilter} />
       </Flex>
-      {/* {searchFilters && <SearchFilters />} */}
+      {searchFilters && (
+      <SearchFilters
+        filters={filters}
+        changeFilter={changeFilter}
+        platform={platform}
+        category={category}
+        sort={sort}
+      />
+      )}
       <Text fontSize="2xl" p="4" fontWeight="bold">
-        Properties for sale
+        Games
       </Text>
       <Flex flexWrap="wrap">
-        {games.map((game) => <Card key={game.id} details={game} />)}
+        {games.map((game) => <Card key={game.id} details={game} sort={sort} />)}
 
       </Flex>
       {(games.length === 0 && !loading) && (
