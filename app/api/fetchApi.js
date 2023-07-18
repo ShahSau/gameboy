@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-return-await */
 export const getRecommendedGames = async () => {
   const myHeaders = new Headers();
@@ -105,6 +106,37 @@ export const getAllGames = async () => {
   };
 
   const res = await fetch('https://free-to-play-games-database.p.rapidapi.com/api/games', requestOptions);
+
+  if (!res.ok) {
+    throw (await res.json());
+  }
+
+  return await res.json();
+};
+
+export const getFilteredGames = async ({ platform, category, sort }) => {
+  const myHeaders = new Headers();
+  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
+  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
+
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    params: {},
+  };
+  let url = 'https://free-to-play-games-database.p.rapidapi.com/api/games?';
+
+  if (platform !== '') {
+    url += `&platform=${platform}`;
+  }
+  if (category !== '') {
+    url += `&category=${category}`;
+  }
+  if (sort !== '') {
+    url += `&sort-by=${sort}`;
+  }
+
+  const res = await fetch(url, requestOptions);
 
   if (!res.ok) {
     throw (await res.json());

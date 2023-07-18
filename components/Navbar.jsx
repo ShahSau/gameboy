@@ -74,7 +74,7 @@ function Navbar() {
                   <MenuList backgroundColor="gray.700" color="white">
                     {filters[1].items.map((item, index) => (
                       <React.Fragment key={index}>
-                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/filter?category=?${item.value}`} variant="link" cursor="pointer">{item.name}</Link></MenuItem>
+                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/filter?category=${item.value}`} variant="link" cursor="pointer">{item.name}</Link></MenuItem>
                         {index !== filters[1].items.length - 1 && <MenuDivider />}
                       </React.Fragment>
                     ))}
@@ -103,7 +103,7 @@ function Navbar() {
                   <MenuList backgroundColor="gray.700" color="white">
                     {filters[0].items.map((item, index) => (
                       <React.Fragment key={index}>
-                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/search?${item.value}`} variant="link" color="white" cursor="pointer">{item.name}</Link></MenuItem>
+                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/filter?platform=${item.value}`} variant="link" cursor="pointer">{item.name}</Link></MenuItem>
                         {index !== filters[0].items.length - 1 && <MenuDivider />}
                       </React.Fragment>
                     ))}
@@ -112,7 +112,7 @@ function Navbar() {
                   <MenuList backgroundColor="gray.700" color="white">
                     {filters[1].items.map((item, index) => (
                       <React.Fragment key={index}>
-                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/search?${item.value}`} variant="link" color="white" cursor="pointer">{item.name}</Link></MenuItem>
+                        <MenuItem backgroundColor="gray.700" key={index}><Link as={NextLink} href={`/filter?category=${item.value}`} variant="link" cursor="pointer">{item.name}</Link></MenuItem>
                         {index !== filters[1].items.length - 1 && <MenuDivider />}
                       </React.Fragment>
                     ))}

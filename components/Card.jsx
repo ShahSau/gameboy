@@ -20,8 +20,10 @@ function Card({ details }) {
       <Box
         role="group"
         p={6}
+        ml={[6, 20, 22, 0]}
+        mr={[0, 0, 8, 0]}
         mt="12"
-        maxW="320px"
+        maxW={['320px', '350px', '360px', '320px']}
         w="full"
         boxShadow="2xl"
         rounded="lg"
