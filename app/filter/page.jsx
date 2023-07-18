@@ -74,27 +74,33 @@ function SearchFilters({
 
 function Page() {
   const searchname = useSearchParams();
-  const [fetchError, setFetchError] = useState(false);
-  const [searchFilters, setSearchFilters] = useState(true);
-  const [games, setGames] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [filters] = useState(filterOptions);
   const [platform, setPlatform] = useState(searchname.get('platform') ?? '');
   const [category, setCategory] = useState(searchname.get('category') ?? '');
   const [sort, setSort] = useState('');
+  const [states, setStates] = useState({
+    fetchError: false,
+    searchFilters: true,
+    games: [],
+    loading: true,
+  });
 
   useAsyncEffect(async (isActive) => {
     try {
       const data = await getFilteredGames({
         platform, category, sort,
       });
-      setGames(data);
-      setLoading(false);
+      setStates({
+        ...states,
+        games: data,
+        loading: false,
+      });
     } catch (error) {
-      console.log(error);
-      setFetchError(error);
+      setStates({
+        ...states,
+        fetchError: true,
+      });
     }
-
     if (!isActive()) return null;
   }, [sort, platform, category]);
 
@@ -114,7 +120,10 @@ function Page() {
   return (
     <Box>
       <Flex
-        onClick={() => setSearchFilters(!searchFilters)}
+        onClick={() => setStates({
+          ...states,
+          searchFilters: !states.searchFilters,
+        })}
         cursor="pointer"
         borderColor="gray.200"
         p="2"
@@ -126,7 +135,7 @@ function Page() {
         <Text>Search games By Filters</Text>
         <Icon paddingLeft="2" w="7" as={BsFilter} />
       </Flex>
-      {searchFilters && (
+      {states.searchFilters && (
       <SearchFilters
         filters={filters}
         changeFilter={changeFilter}
@@ -139,15 +148,15 @@ function Page() {
         Games
       </Text>
       <Flex flexWrap="wrap">
-        {games.map((game) => <Card key={game.id} details={game} sort={sort} />)}
+        {states.games.map((game) => <Card key={game.id} details={game} sort={sort} />)}
 
       </Flex>
-      {(games.length === 0 && !loading) && (
+      {(states.games.length === 0 && !states.loading) && (
         <Flex justifyContent="center" alignItems="center" flexDir="column" marginTop="5" marginBottom="5">
           <Text fontSize="xl" marginTop="3">No Result Found.</Text>
         </Flex>
       )}
-      {(fetchError && !loading) && (
+      {(states.fetchError && !states.loading) && (
         <Flex justifyContent="center" alignItems="center" flexDir="column" marginTop="5" marginBottom="5">
           <Text fontSize="xl" marginTop="3">This was not suppose to happen!</Text>
           <Link as={NextLink} href="/" variant="link" color="white" cursor="pointer" justify="center" alignSelf="center">

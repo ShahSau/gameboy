@@ -1,15 +1,14 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-return-await */
+const myHeaders = new Headers();
+myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
+myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
+const requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+};
+
 export const getRecommendedGames = async () => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch('https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=relevance', requestOptions);
 
   if (!res.ok) {
@@ -20,15 +19,6 @@ export const getRecommendedGames = async () => {
 };
 
 export const getTodayGames = async () => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch('https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=popularity', requestOptions);
 
   if (!res.ok) {
@@ -39,15 +29,6 @@ export const getTodayGames = async () => {
 };
 
 export const getRecentGames = async () => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch('https://free-to-play-games-database.p.rapidapi.com/api/games?sort-by=release-date', requestOptions);
 
   if (!res.ok) {
@@ -58,15 +39,6 @@ export const getRecentGames = async () => {
 };
 
 export const getDetails = async ({ id }) => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch(`https://free-to-play-games-database.p.rapidapi.com/api/game?id=${id}`, requestOptions);
 
   if (!res.ok) {
@@ -77,15 +49,6 @@ export const getDetails = async ({ id }) => {
 };
 
 export const getSuggestion = async ({ type }) => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch(`https://free-to-play-games-database.p.rapidapi.com/api/games?category=${type}`, requestOptions);
 
   if (!res.ok) {
@@ -96,15 +59,6 @@ export const getSuggestion = async ({ type }) => {
 };
 
 export const getAllGames = async () => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-  };
-
   const res = await fetch('https://free-to-play-games-database.p.rapidapi.com/api/games', requestOptions);
 
   if (!res.ok) {
@@ -115,11 +69,7 @@ export const getAllGames = async () => {
 };
 
 export const getFilteredGames = async ({ platform, category, sort }) => {
-  const myHeaders = new Headers();
-  myHeaders.append('X-RapidAPI-Key', '09cfa80fdfmshfab9bb2e6524034p10409ejsn8327b13fb216');
-  myHeaders.append('X-RapidAPI-Host', 'free-to-play-games-database.p.rapidapi.com');
-
-  const requestOptions = {
+  const newrequestOptions = {
     method: 'GET',
     headers: myHeaders,
     params: {},
@@ -136,7 +86,7 @@ export const getFilteredGames = async ({ platform, category, sort }) => {
     url += `&sort-by=${sort}`;
   }
 
-  const res = await fetch(url, requestOptions);
+  const res = await fetch(url, newrequestOptions);
 
   if (!res.ok) {
     throw (await res.json());

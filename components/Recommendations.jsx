@@ -29,7 +29,6 @@ function Recommendations() {
         loading: false,
       });
     } catch (error) {
-      console.log(error);
       setStates({
         ...states,
         loading: false,
@@ -72,7 +71,6 @@ function Recommendations() {
           </Flex>
         </Link>
       ))}
-      {/* {states.loading && <Spinner size="xl" color="whiteAlpha.700" thickness="4px" />} */}
     </Flex>
   );
 }

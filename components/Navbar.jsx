@@ -28,7 +28,6 @@ function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filters] = useState(filterOptions);
   const pathname = usePathname();
-  console.warn(pathname, typeof pathname);
 
   return (
     <Box px={4}>

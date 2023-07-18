@@ -36,7 +36,6 @@ function RecentlyAdded() {
         loading: false,
       });
     } catch (error) {
-      // console.log(error);
       setStates({
         ...states,
         loading: false,
