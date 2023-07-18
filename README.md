@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nintendo_Game_Boy_Logo.svg/1280px-Nintendo_Game_Boy_Logo.svg.png" alt="Logo" width="80" height="80">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nintendo_Game_Boy_Logo.svg/1280px-Nintendo_Game_Boy_Logo.svg.png" alt="Logo" width="200" height="80">
   </a>
 
 <h3 align="center">GameBoy</h3>
@@ -51,7 +51,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://drive.google.com/file/d/1-Q9CX-U7I15yzHjjZijYZYI1MNwUV11y/view?usp=sharing)
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nintendo_Game_Boy_Logo.svg/1280px-Nintendo_Game_Boy_Logo.svg.png" alt="Logo" width="350" height="250">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
