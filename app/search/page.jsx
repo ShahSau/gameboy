@@ -7,8 +7,9 @@
 
 import React, { useState } from 'react';
 import {
-  Stack, Text,
+  Stack, Text, Link, Button, Flex,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import useAsyncEffect from 'use-async-effect';
 import InputBox from '../../components/Input';
 import { getAllGames } from '../api/fetchApi';
@@ -86,8 +87,16 @@ function Page() {
       </Stack>
     </>
     )}
-      {/* {states.loading &&
-        <Spinner size="xl" m="44" color="whiteAlpha.700" thickness="4px" />} */}
+      {(states.error && !states.loading) && (
+      <Flex justifyContent="center" alignItems="center" flexDir="column" marginTop="5" marginBottom="5">
+        <Text fontSize="xl" marginTop="3">This was not suppose to happen!</Text>
+        <Link as={NextLink} href="/" variant="link" color="white" cursor="pointer" justify="center" alignSelf="center">
+          <Button bg="whiteAlpha.300" rounded="full" color="whiteAlpha.700" _hover={{ bg: 'whiteAlpha.500' }}>
+            Home page
+          </Button>
+        </Link>
+      </Flex>
+      )}
     </>
   );
 }

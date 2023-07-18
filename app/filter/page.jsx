@@ -6,8 +6,9 @@
 
 import React, { useState } from 'react';
 import {
-  Flex, Box, Text, Icon, Select,
+  Flex, Box, Text, Icon, Select, Link, Button,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { BsFilter } from 'react-icons/bs';
 import useAsyncEffect from 'use-async-effect';
 import { useSearchParams } from 'next/navigation';
@@ -73,7 +74,7 @@ function SearchFilters({
 
 function Page() {
   const searchname = useSearchParams();
-
+  const [fetchError, setFetchError] = useState(false);
   const [searchFilters, setSearchFilters] = useState(true);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,6 +92,7 @@ function Page() {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setFetchError(error);
     }
 
     if (!isActive()) return null;
@@ -143,6 +145,16 @@ function Page() {
       {(games.length === 0 && !loading) && (
         <Flex justifyContent="center" alignItems="center" flexDir="column" marginTop="5" marginBottom="5">
           <Text fontSize="xl" marginTop="3">No Result Found.</Text>
+        </Flex>
+      )}
+      {(fetchError && !loading) && (
+        <Flex justifyContent="center" alignItems="center" flexDir="column" marginTop="5" marginBottom="5">
+          <Text fontSize="xl" marginTop="3">This was not suppose to happen!</Text>
+          <Link as={NextLink} href="/" variant="link" color="white" cursor="pointer" justify="center" alignSelf="center">
+            <Button bg="whiteAlpha.300" rounded="full" color="whiteAlpha.700" _hover={{ bg: 'whiteAlpha.500' }}>
+              Home page
+            </Button>
+          </Link>
         </Flex>
       )}
     </Box>

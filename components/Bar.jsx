@@ -14,11 +14,17 @@ function Bar() {
         justifyContent="space-between"
       >
         <Text fontSize={{ base: 'sm' }} textAlign="left" maxW="4xl">
-
-          but also the leap into electronic typesetting, remaining essentially
+          Get details of games numbers of free to play games. 
+          Track what you have played and search for what to play next!
+          {' '}
+          <br />
+          The game data is provides by
+          {' '}
+          <Link href="https://rapidapi.com/digiwalls/api/free-to-play-games-database"> Free-to-Play Games Database </Link>
+          {/* but also the leap into electronic typesetting, remaining essentially
           unchanged. It was popularised in the 1960s with the release of Letraset
           sheets containing Lorem Ipsum passages, and more recently with desktop
-          publishing software like Aldus.
+          publishing software like Aldus. */}
         </Text>
         <Stack direction={{ base: 'column', md: 'row' }}>
           <Link as={NextLink} href="/search" variant="link" color="white" cursor="pointer" justify="center" alignSelf="center">
