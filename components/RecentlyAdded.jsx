@@ -1,6 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-no-useless-fragment */
+
+'use client';
+
 import React, { useState } from 'react';
 import useAsyncEffect from 'use-async-effect';
 import NextLink from 'next/link';

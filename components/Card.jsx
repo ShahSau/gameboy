@@ -1,5 +1,8 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
+
+'use client';
+
 import React from 'react';
 import {
   Box, Text, Stack, Image, Heading, Link,

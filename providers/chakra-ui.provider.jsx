@@ -5,10 +5,27 @@
 
 import React from 'react';
 import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
+// const styles = {
+//   global: () => ({
+//     body: {
+//       colors: {
+//         white: 'gray.800',
+//       },
+//     },
+//   }),
+// };
+// const theme = extendTheme({
+//   styles,
+// });
+const config = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+};
+const theme = extendTheme({ config });
 const ChakraUiProvider = ({ children }) => (
-  <CacheProvider>
+  <CacheProvider theme={theme}>
     <ChakraProvider>{children}</ChakraProvider>
   </CacheProvider>
 );

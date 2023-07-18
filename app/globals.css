@@ -1,3 +1,10 @@
+* {
+  /* box-sizing: border-box; */
+  /* background-color: #272b30; */
+ background-color: '';
+
+}
+
 html,
 body {
   padding: 0;
@@ -6,15 +13,12 @@ body {
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   /* line-height: 1.6;
   font-size: 18px; */
-  background-color: #272b30;
-  color: #e9ecef;
+  background: #272b30 !important;
+  color: #e9ecef !important;
   /* background color of the box:#7a8288; */
 }
 
-* {
-  /* box-sizing: border-box; */
-  background-color: #272b30;
-}
+
 
 a {
   color: #0070f3;

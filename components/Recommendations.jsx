@@ -1,4 +1,7 @@
 /* eslint-disable consistent-return */
+
+'use client';
+
 import React, { useState } from 'react';
 import {
   Link,

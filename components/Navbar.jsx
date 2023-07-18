@@ -1,4 +1,7 @@
 /* eslint-disable react/no-array-index-key */
+
+'use client';
+
 import React, { useState } from 'react';
 import {
   Box,

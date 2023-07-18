@@ -1,6 +1,9 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
+
+'use client';
+
 import React, { useState } from 'react';
 import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';

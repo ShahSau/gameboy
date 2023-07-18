@@ -1,5 +1,8 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
+
+'use client';
+
 import React, { useState } from 'react';
 import { Box, SimpleGrid, GridItem } from '@chakra-ui/react';
 import MostPlayed from './MostPlayed';
