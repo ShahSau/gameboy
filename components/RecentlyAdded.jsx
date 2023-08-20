@@ -19,7 +19,7 @@ import {
   Image,
   Link,
 } from '@chakra-ui/react';
-import { BsWindows, BsBrowserChrome } from 'react-icons/bs';
+// import { BsWindows, BsBrowserChrome } from 'react-icons/bs';
 import { getRecentGames } from '../app/api/fetchApi';
 
 function RecentlyAdded() {
@@ -98,7 +98,10 @@ function RecentlyAdded() {
                       {game.genre}
                     </Button>
                     <Spacer />
-                    <Text fontWeight="bold" mt="2" fontSize="xl">{game.platform === 'PC (Windows)' ? <BsWindows /> : <BsBrowserChrome /> }</Text>
+                    {/*
+                    <Text fontWeight="bold" mt="2" fontSize="xl">{game.platform === 'PC (Windows)'
+                    ? <BsWindows /> : <BsBrowserChrome /> }</Text>
+                    */}
                   </CardFooter>
                 </Stack>
               </Card>
