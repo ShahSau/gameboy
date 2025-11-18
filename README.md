@@ -1,160 +1,250 @@
-<p align="center">
-    <h1 align="center">GAMEBOY</h1>
-</p>
-<p align="center">
-    <em>Game On, Anytime, Anywhere—Play Free, Play Now!</em>
-</p>
-<p align="center">
-	<img src="https://img.shields.io/github/license/ShahSau/gameboy?style=flat&color=0080ff" alt="license">
-	<img src="https://img.shields.io/github/last-commit/ShahSau/gameboy?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/ShahSau/gameboy?style=flat&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/ShahSau/gameboy?style=flat&color=0080ff" alt="repo-language-count">
-<p>
-<p align="center">
-		<em>Developed with the software and tools below.</em>
-</p>
-<p align="center">
-	<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black" alt="JavaScript">
-  <img src="https://img.shields.io/badge/Next-black?style=flat&logo=next.js&logoColor=white" alt="nextjs">
-	<img src="https://img.shields.io/badge/Autoprefixer-DD3735.svg?style=flat&logo=Autoprefixer&logoColor=white" alt="Autoprefixer">
-	<img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
-	<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React">
-	<img src="https://img.shields.io/badge/ESLint-4B32C3.svg?style=flat&logo=ESLint&logoColor=white" alt="ESLint">
-	<img src="https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white" alt="JSON">
-  <img src="https://img.shields.io/badge/framer_motion-ffca28?style=flat&logo=framer&logoColor=%23ffffff&color=%237178f6" alt="framer-motion">
+# Welcome to Gameboy
 
-  
-</p>
-<hr>
+## Features
 
-##  Quick Links
+- 🎮 Browse and discover games
+- 🔍 Advanced search with filters (category, platform, tags)
+- 📊 Insights dashboard with analytics
+- ⭐ Favorites management
+- 🎨 Beautiful, responsive UI with Tailwind CSS
+- 🌙 Dark mode support
 
-> - [ Overview](#-overview)
-> - [ Features](#-features)
-> - [ Repository Structure](#-repository-structure)
-> - [ Modules](#-modules)
-> - [ Getting Started](#-getting-started)
->   - [ Installation](#-installation)
->   - [ Running gameboy](#-running-gameboy)
->   - [ Tests](#-tests)
-> - [ Project Roadmap](#-project-roadmap)
-> - [ Contributing](#-contributing)
-> - [ License](#-license)
-> - [ Acknowledgments](#-acknowledgments)
+## Tech Stack
 
----
+- **Framework:** React 18
+- **Language:** TypeScript
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Routing:** React Router
+- **State Management:** React Query
+- **Charts:** Recharts
+- **Animations:** Framer Motion
+- **Testing:** Vitest + React Testing Library
 
-##  Overview
+## Getting Started
 
-Welcome to Gameboy, a dynamic and immersive free-to-play gaming platform info webapp built with cutting-edge technologies including JavaScript, Next.js, React, and Framer Motion. Our app is designed to deliver a seamless gaming experience, offering a diverse selection of games that are accessible anytime, anywhere.
+### Prerequisites
 
-Leveraging the power of Next.js for server-side rendering and React for a responsive and interactive user interface, Gameboy ensures that users enjoy fast load times and smooth gameplay. Framer Motion adds an extra layer of engagement, with fluid animations and transitions that bring the gaming experience to life.
+- Node.js 18+ or Bun
 
-Whether you're a casual gamer or a dedicated player, Gameboy provides an exciting and user-friendly environment where fun is just a click away. Join us and dive into a world of endless entertainment—no downloads, no hassle, just pure gaming pleasure!
+### Installation
 
----
-
-
-##  Repository Structure
-
-```sh
-└── gameboy/
-    ├── LICENSE
-    ├── README.md
-    ├── app
-    │   ├── api
-    │   │   └── fetchApi.js
-    │   ├── favicon.ico
-    │   ├── filter
-    │   │   └── page.jsx
-    │   ├── game
-    │   │   └── [id]
-    │   │       └── page.jsx
-    │   ├── globals.css
-    │   ├── layout.jsx
-    │   ├── page.jsx
-    │   ├── page.module.css
-    │   └── search
-    │       └── page.jsx
-    ├── components
-    │   ├── Bar.jsx
-    │   ├── Card.jsx
-    │   ├── Carousels.jsx
-    │   ├── Footer.jsx
-    │   ├── Header.jsx
-    │   ├── Input.jsx
-    │   ├── Layout.jsx
-    │   ├── MostPlayed.jsx
-    │   ├── Navbar.jsx
-    │   ├── RecentlyAdded.jsx
-    │   ├── Recommendations.jsx
-    │   └── Section.jsx
-    ├── jest.config.js
-    ├── jsconfig.json
-    ├── next.config.js
-    ├── package-lock.json
-    ├── package.json
-    ├── providers
-    │   └── chakra-ui.provider.jsx
-    ├── public
-    │   ├── next.svg
-    │   └── vercel.svg
-    └── utils
-        └── filterOptions.js
-```
-
----
-
-##  Getting Started
-
-***Requirements***
-
-Ensure you have the following dependencies installed on your system:
-
-
-* **nextjs**: `version 13.4.10`
-* **react**: `version 18.2.0`
-
-###  Installation
-
-1. Clone the gameboy repository:
-
-```sh
-git clone https://github.com/ShahSau/gameboy
-```
-
-2. Change to the project directory:
-
-```sh
-cd gameboy
-```
-
-3. Install the dependencies:
-
-```sh
+```bash
+# Install dependencies
 npm install
+# or
+bun install
 ```
 
-###  Running gameboy
+### Development
 
-Use the following command to run gameboy:
+```bash
+# Start dev server
+npm run dev
+# or
+bun dev
+```
+
+The app will be available at `http://localhost:5173`
+
+### Testing
+
+#### Unit Tests (Vitest)
+
+```bash
+# Run all tests
+npm run test
+# or
+bun test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with UI
+npm run test:ui
+
+# Generate coverage report
+npm run test:coverage
+```
+
+#### E2E Tests (Cypress)
+
+```bash
+# Open Cypress Test Runner
+npm run cypress:open
+
+# Run Cypress tests headlessly
+npm run cypress:run
+
+# Run specific test file
+npm run cypress:run -- --spec "cypress/e2e/search.cy.ts"
+```
+
+### Build
+
+```bash
+# Build for production
+npm run build
+# or
+bun run build
+```
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   ├── skeletons/      # Loading skeletons
+│   └── __tests__/      # Component tests
+├── pages/              # Page components
+│   ├── Home.tsx
+│   ├── Search.tsx
+│   ├── GameDetails.tsx
+│   ├── Insights.tsx
+│   └── Favorites.tsx
+├── lib/                # Utility functions
+│   └── __tests__/      # Utility tests
+├── hooks/              # Custom React hooks
+└── test/               # Test setup and utilities
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run test` - Run unit tests
+- `npm run test:watch` - Run unit tests in watch mode
+- `npm run test:ui` - Open Vitest UI
+- `npm run test:coverage` - Generate test coverage report
+- `npm run cypress:open` - Open Cypress Test Runner
+- `npm run cypress:run` - Run Cypress E2E tests headlessly
+
+## Testing
+
+This project uses two testing approaches:
+
+### Unit Testing (Vitest + React Testing Library)
+
+For testing individual components and utility functions in isolation.
+
+### Test Files Created
+
+- `src/components/__tests__/GameCard.test.tsx` - GameCard component tests
+- `src/components/__tests__/SearchBar.test.tsx` - SearchBar component tests
+- `src/components/__tests__/Header.test.tsx` - Header component tests
+- `src/lib/__tests__/utils.test.ts` - Utility function tests
+
+### E2E Testing (Cypress)
+
+For testing complete user flows and interactions across the entire application.
+
+**Test Files:**
+- `cypress/e2e/navigation.cy.ts` - Navigation and routing tests
+- `cypress/e2e/home.cy.ts` - Home page functionality tests
+- `cypress/e2e/search.cy.ts` - Search and filtering tests
+- `cypress/e2e/game-details.cy.ts` - Game details page tests
+- `cypress/e2e/insights.cy.ts` - Insights dashboard tests
+
+### Running Tests
+
+**Unit Tests:**
+
+```bash
+# Run all tests once
+npm test
+
+# Watch mode (re-runs tests on file changes)
+npm run test:watch
+
+# UI mode (interactive test runner)
+npm run test:ui
+
+# Coverage report
+npm run test:coverage
+```
+
+**E2E Tests:**
+
+```bash
+# Open Cypress Test Runner (interactive mode)
+npm run cypress:open
+
+# Run all E2E tests headlessly
+npm run cypress:run
+
+# Run specific test file
+npm run cypress:run -- --spec "cypress/e2e/search.cy.ts"
+
+# Run tests in specific browser
+npm run cypress:run -- --browser chrome
+```
+
+### Writing Unit Tests
+
+Tests are located next to the files they test in `__tests__` directories:
+
+```typescript
+// Example test
+import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { screen } from '@testing-library/dom';
+import GameCard from '../GameCard';
+
+describe('GameCard', () => {
+  it('renders game title', () => {
+    render(<GameCard title="Test Game" {...otherProps} />);
+    expect(screen.getByText('Test Game')).toBeInTheDocument();
+  });
+});
+```
+
+### Writing E2E Tests
+
+E2E tests are written using Cypress and test complete user flows:
+
+```typescript
+// Example E2E test
+describe('Search Page', () => {
+  beforeEach(() => {
+    cy.visit('/search');
+  });
+
+  it('should filter games by category', () => {
+    cy.contains('Category').parent().find('button').click();
+    cy.contains('Action').click();
+    cy.contains('Active Filters:').should('be.visible');
+    cy.contains('Category: Action').should('be.visible');
+  });
+});
+```
+
+### Best Practices
+
+- **Unit tests** for component logic, props, and rendering
+- **E2E tests** for user interactions and complete workflows
+- Run unit tests frequently during development
+- Run E2E tests before major releases or deployments
+- Keep tests focused and independent
+- Use data-testid attributes for reliable element selection in tests
+
+## How can I edit this code?
+
+There are several ways of editing your application.
+
+**Use your preferred IDE**
+
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 ```sh
+git clone <YOUR_GIT_URL>
+cd <YOUR_PROJECT_NAME>
+npm i
 npm run dev
 ```
 
----
+## License
 
-##  License
-
-This project is protected under the MIT License. For more details, refer to the [LICENSE](https://github.com/ShahSau/turbo?tab=MIT-1-ov-file#readme) file.
-
----
-
-##  Acknowledgments
-
-* [rapidapi](https://rapidapi.com/digiwalls/api/free-to-play-games-database)
-
-[**Return**](#-quick-links)
-
----
+MIT
