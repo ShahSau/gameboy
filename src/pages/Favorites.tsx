@@ -1,40 +1,38 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import GameCard from "@/components/GameCard";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import GameCardSkeleton from "@/components/skeletons/GameCardSkeleton";
-import { useNavigate } from "react-router-dom";
-  
+import { Game } from "@/types/GameDetails";
+
+
 const Favorites = () => {
   const navigate = useNavigate();
+  const [favorites, setFavorites] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setLoading(false), 800);
+    const fetchFavorites = () => {
+      try {
+        const storedData = sessionStorage.getItem("favorites");
+        
+        if (storedData) {
+          setFavorites(JSON.parse(storedData));
+        }
+      } catch (error) {
+        console.error("Failed to parse favorites from storage", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Small delay to prevent flickering if data loads too fast, 
+    // and to allow the Skeleton animation to be seen briefly for smoothness
+    const timer = setTimeout(fetchFavorites, 500);
     return () => clearTimeout(timer);
   }, []);
-
-  // Mock favorites - will be replaced with localStorage/Supabase
-  const favorites = [
-    {
-      id: 2,
-      title: "The Witcher 3",
-      coverImage: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&h=800&fit=crop",
-      rating: 9.5,
-      platforms: ["PC", "PS5", "Xbox"],
-      releaseDate: "May 2015"
-    },
-    {
-      id: 3,
-      title: "Elden Ring",
-      coverImage: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=800&fit=crop",
-      rating: 9.2,
-      platforms: ["PC", "PS5", "Xbox"],
-      releaseDate: "Feb 2022"
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,34 +54,45 @@ const Favorites = () => {
           </p>
         </motion.div>
 
-        {favorites.length === 0 ? (
-          <div className="text-center py-20">
-            <Heart className="h-20 w-20 text-muted-foreground mx-auto mb-4" />
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <GameCardSkeleton key={index} />
+            ))}
+          </div>
+        ) : favorites.length === 0 ? (
+          <div className="text-center py-20 border-2 border-dashed rounded-xl">
+            <Heart className="h-20 w-20 text-muted-foreground mx-auto mb-4 opacity-20" />
             <h3 className="text-2xl font-semibold mb-2">No favorites yet</h3>
-            <p className="text-muted-foreground">Start exploring and add games to your collection!</p>
+            <p className="text-muted-foreground mb-6">Start exploring and add games to your collection!</p>
+            <button 
+              onClick={() => navigate('/search')}
+              className="text-primary hover:underline font-medium"
+            >
+              Browse Games
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {loading ? (
-              Array.from({ length: 4 }).map((_, index) => (
-                <GameCardSkeleton key={index} />
-              ))
-            ) : (
-              favorites.map((game, index) => (
-                <motion.div 
-                  key={game.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  <GameCard 
-                    key={game.id} 
-                    {...game} 
-                    onClick={() => navigate(`/game/${game.id}`)}
-                  />
-                </motion.div>
-              ))
-            )}
+            {favorites.map((game, index) => (
+              <motion.div 
+                key={game.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+              >
+                <GameCard 
+                  id={game.id} 
+                  title={game.title}
+                  thumbnail={game.thumbnail}
+                  platform={game.platform} 
+                  release_date={game.release_date}
+                  genre={game.genre}
+                  short_description={game.short_description}
+                  onClick={() => navigate(`/game/${game.id}`)}
+                />
+              </motion.div>
+            ))}
           </div>
         )}
       </div>
