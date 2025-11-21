@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Game } from '../types/GameDetails';
 
 interface GameIdArgs {
   id: number | string;
@@ -14,19 +15,7 @@ interface FilterArgs {
   sort?: string;
 }
 
-export interface Game {
-  id: number;
-  title: string;
-  thumbnail: string;
-  short_description: string;
-  game_url: string;
-  genre: string;
-  platform: string;
-  publisher: string;
-  developer: string;
-  release_date: string;
-  freetogame_profile_url: string;
-}
+
 
 const apiClient = axios.create({
   baseURL: 'https://free-to-play-games-database.p.rapidapi.com/api',
@@ -76,20 +65,32 @@ export const getMostPlayedGames = async (): Promise<Game[]> => {
   }
 };
 
+
+export const getDetails = async ({ id }: GameIdArgs): Promise<Game> => {
+  try{
+    const { data } = await apiClient.get<Game>('/game', {
+    params: { id },
+  });
+  return data;
+  }
+  catch(error){
+    console.error("Error fetching game details:", error);
+    throw error;
+  } 
+};
+
 export const getRecommendedGames = async (): Promise<Game[]> => {
-  const { data } = await apiClient.get<Game[]>('/games', {
+  try{
+    const { data } = await apiClient.get<Game[]>('/games', {
     params: { 'sort-by': 'relevance' },
   });
   return data;
+  }
+  catch(error){
+    console.error("Error fetching recommended games:", error);
+    return [];
+  }
 };
-
-
-// export const getDetails = async ({ id }: GameIdArgs): Promise<Game> => {
-//   const { data } = await apiClient.get<Game>('/game', {
-//     params: { id },
-//   });
-//   return data;
-// };
 
 // export const getSuggestion = async ({ type }: SuggestionArgs): Promise<Game[]> => {
 //   const { data } = await apiClient.get<Game[]>('/games', {
