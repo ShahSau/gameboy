@@ -198,6 +198,9 @@ jobs:
           browser: chrome
           # We only run core navigation tests on PRs to be fast
           spec: cypress/e2e/home.cy.ts
+        env:
+          # Force Cypress to use the preview port here as well
+          CYPRESS_baseUrl: http://localhost:4173
 
       - name: Upload Cypress artifacts
         if: failure()

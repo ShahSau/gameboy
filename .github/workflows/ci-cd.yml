@@ -186,6 +186,8 @@ jobs:
           wait-on-timeout: 120
           browser: ${{ matrix.browser }}
           record: false
+        env:
+          CYPRESS_baseUrl: http://localhost:4173
 
       - name: Upload Cypress screenshots
         if: failure()
