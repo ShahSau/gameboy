@@ -245,6 +245,18 @@ npm i
 npm run dev
 ```
 
-## License
+---
 
-MIT
+##  License
+
+This project is protected under the MIT License. For more details, refer to the [LICENSE](https://github.com/ShahSau/turbo?tab=MIT-1-ov-file#readme) file.
+
+---
+
+##  Acknowledgments
+
+* [rapidapi](https://rapidapi.com/digiwalls/api/free-to-play-games-database)
+
+[**Return**](#-quick-links)
+
+---
