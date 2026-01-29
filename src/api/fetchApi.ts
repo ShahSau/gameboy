@@ -92,25 +92,13 @@ export const getRecommendedGames = async (): Promise<Game[]> => {
   }
 };
 
-// export const getSuggestion = async ({ type }: SuggestionArgs): Promise<Game[]> => {
-//   const { data } = await apiClient.get<Game[]>('/games', {
-//     params: { category: type },
-//   });
-//   return data;
-// };
+export const getFilteredGames = async ({ platform, category, sort }: FilterArgs): Promise<Game[]> => {
+  const params: Record<string, string> = {};
 
-// export const getAllGames = async (): Promise<Game[]> => {
-//   const { data } = await apiClient.get<Game[]>('/games');
-//   return data;
-// };
+  if (platform && platform !== "all") params.platform = platform.toLowerCase(); 
+  if (category && category !== "all") params.category = category.toLowerCase();
+  if (sort && sort !== "relevance") params["sort-by"] = sort;
 
-// export const getFilteredGames = async ({ platform, category, sort }: FilterArgs): Promise<Game[]> => {
-//   const params: Record<string, string> = {};
-
-//   if (platform) params.platform = platform;
-//   if (category) params.category = category;
-//   if (sort) params['sort-by'] = sort;
-
-//   const { data } = await apiClient.get<Game[]>('/games', { params });
-//   return data;
-// };
+  const { data } = await apiClient.get<Game[]>('/games', { params });
+  return data;
+};

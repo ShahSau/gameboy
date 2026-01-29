@@ -223,7 +223,7 @@ const GameDetails = () => {
                 size="lg"
                 variant={isFavorite ? "secondary" : "outline"}
                 onClick={toggleFavorite}
-                className={isFavorite ? "text-red-500 hover:text-red-600" : ""}
+                className={isFavorite ? "text-red-800 hover:text-red-900" : ""}
               >
                 <Heart
                   className={`h-5 w-5 mr-2 ${isFavorite ? "fill-current" : ""}`}

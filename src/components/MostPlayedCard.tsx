@@ -1,4 +1,3 @@
-//import { LazyImage } from "react-lazy-images";
 import { HomePageGames } from "@/types/homepageGames";
 import { useState } from "react";
 
@@ -6,24 +5,6 @@ const MostPlayedCard = ({ title, thumbnail, platform, release_date, onClick }: H
   const [isLoading, setIsLoading] = useState(true);
   return (
     <div className="relative group cursor-pointer overflow-hidden rounded-lg h-48 bg-muted hover:shadow-glow transition-all duration-300" onClick={onClick}>
-      {/* <LazyImage
-        src={thumbnail}
-        alt={title}
-        placeholder={({ ref }) => <div ref={ref} className="absolute inset-0 w-full h-full bg-muted animate-pulse" />}
-        actual={({ imageProps }) => (
-          <img
-            {...imageProps}
-            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
-          />
-        )}
-      /> */}
-      {/* 1. The Placeholder (Tailwind animate-pulse) */}
-    {isLoading && (
-      <div 
-        className="absolute inset-0 w-full h-full bg-muted animate-pulse z-10" 
-      />
-    )}
-    {/* 2. The Actual Image */}
     <img
       src={thumbnail}
       alt={title}

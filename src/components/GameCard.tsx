@@ -1,11 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// import { LazyImage } from "react-lazy-images";
 import { motion } from "framer-motion";
 import { HomePageGames } from "@/types/homepageGames";
 import { useState } from "react";
 
-const GameCard = ({ title, thumbnail, platform, release_date, onClick }: HomePageGames) => {
+const GameCard = ({
+  title,
+  thumbnail,
+  platform,
+  release_date,
+  onClick,
+}: HomePageGames) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <Card
@@ -14,62 +19,41 @@ const GameCard = ({ title, thumbnail, platform, release_date, onClick }: HomePag
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-muted">
         <div className="w-full h-full transition-transform duration-300 group-hover:scale-110">
-          {/* <LazyImage
+          {!imageLoaded && (
+            <motion.div
+              className="absolute inset-0 w-full h-full bg-muted z-10"
+              animate={{
+                opacity: [0.5, 1, 0.5],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          )}
+          <img
             src={thumbnail}
             alt={title}
-            placeholder={({ ref }) => (
-              <motion.div 
-                ref={ref} 
-                className="w-full h-full bg-muted"
-                animate={{
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            )}
-            actual={({ imageProps }) => (
-              <img
-                {...imageProps}
-                className="w-full h-full object-cover object-center"
-              />
-            )}
-          /> */}
-          {/* 1. The Placeholder (Visible until image loads) */}
-    {!imageLoaded && (
-      <motion.div
-        className="absolute inset-0 w-full h-full bg-muted z-10"
-        animate={{
-          opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-    )}
-    {/* 2. The Actual Image (Native lazy loading) */}
-    <img
-      src={thumbnail}
-      alt={title}
-      loading="lazy"
-      onLoad={() => setImageLoaded(true)}
-      className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
-        imageLoaded ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
         </div>
       </div>
       <CardContent className="p-4 space-y-2 relative z-10">
-        <h3 className="font-bold text-lg line-clamp-1 group-hover:text-primary transition-colors">{title}</h3>
+        <h3 className="font-bold text-lg line-clamp-1 group-hover:text-primary transition-colors">
+          {title}
+        </h3>
         <div className="flex flex-wrap gap-1.5">
-            <Badge variant="secondary" className="text-xs bg-muted hover:bg-primary/20 transition-colors">
-              {platform}
-            </Badge>
+          <Badge
+            variant="secondary"
+            className="text-xs bg-muted hover:bg-primary/20 transition-colors"
+          >
+            {platform}
+          </Badge>
         </div>
         <p className="text-xs text-muted-foreground">{release_date}</p>
       </CardContent>
