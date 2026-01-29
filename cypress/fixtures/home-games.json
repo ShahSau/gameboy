@@ -1,0 +1,42 @@
+[
+  {
+    "id": 2,
+    "title": "The Witcher 3",
+    "thumbnail": "https://www.freetogame.com/g/350/thumbnail.jpg",
+    "short_description": "An open world RPG...",
+    "genre": "RPG",
+    "platform": "PC (Windows)",
+    "release_date": "2015-05-18",
+    "rating": 9.5
+  },
+  {
+    "id": 3,
+    "title": "Elden Ring",
+    "thumbnail": "https://www.freetogame.com/g/540/thumbnail.jpg",
+    "short_description": "A fantasy action-RPG...",
+    "genre": "RPG",
+    "platform": "PC (Windows)",
+    "release_date": "2022-02-25",
+    "rating": 9.7
+  },
+  {
+    "id": 4,
+    "title": "God of War",
+    "thumbnail": "https://www.freetogame.com/g/452/thumbnail.jpg",
+    "short_description": "Action adventure game...",
+    "genre": "Action",
+    "platform": "PC (Windows)",
+    "release_date": "2018-04-20",
+    "rating": 9.8
+  },
+  {
+    "id": 541,
+    "title": "Blue Protocol: Star Resonance",
+    "thumbnail": "https://www.freetogame.com/g/541/thumbnail.jpg",
+    "short_description": "A free-to-play open-world anime MMORPG.",
+    "genre": "MMORPG",
+    "platform": "PC (Windows)",
+    "release_date": "2023-06-14",
+    "rating": 8.5
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "id": 452,
+  "title": "Call of Duty: Warzone",
+  "thumbnail": "https://www.freetogame.com/g/452/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A massive combat arena from the world of Call of Duty.",
+  "description": "Top tier shooter game...",
+  "game_url": "https://www.freetogame.com/open/warzone",
+  "genre": "Shooter",
+  "platform": "Windows",
+  "publisher": "Activision",
+  "developer": "Infinity Ward",
+  "release_date": "2020-03-10",
+  "freetogame_profile_url": "https://www.freetogame.com/warzone",
+  "minimum_system_requirements": {
+    "os": "Windows 10 64 Bit",
+    "processor": "Intel Core i3-4340",
+    "memory": "8GB RAM",
+    "graphics": "NVIDIA GeForce GTX 670",
+    "storage": "175GB"
+  },
+  "screenshots": [
+    {
+      "id": 101,
+      "image": "https://www.freetogame.com/g/452/warzone-1.jpg"
+    },
+    {
+      "id": 102,
+      "image": "https://www.freetogame.com/g/452/warzone-2.jpg"
+    },
+    {
+      "id": 103,
+      "image": "https://www.freetogame.com/g/452/warzone-3.jpg"
+    }
+  ]
+}
