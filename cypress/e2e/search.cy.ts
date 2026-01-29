@@ -1,144 +1,125 @@
 describe('Search Page', () => {
   beforeEach(() => {
-    // Visit the search page before each test
+    // 1. Intercept the API call to force consistent test data
+    cy.intercept('GET', '**/api/games*', { fixture: 'search-games.json' }).as('getGames');
+    
+    // 2. Visit the page
     cy.visit('/search');
-    // Wait for initial games to load (based on mock data)
-    cy.wait(500); 
-    cy.get('.grid div[class*="group cursor-pointer"]').should('have.length.greaterThan', 0);
+    
+    // 3. Wait for the API load
+    cy.wait('@getGames');
+
+    // 4. Wait for skeletons to disappear
+    cy.get('[class*="GameCardSkeleton"]', { timeout: 10000 }).should('not.exist');
   });
 
   it('should display search bar and all filter sections', () => {
-    cy.get('input[placeholder="Search for games..."]').should('be.visible');
+    cy.get('input[placeholder="Search by name..."]').should('be.visible');
     cy.contains('Category').should('be.visible');
     cy.contains('Platform').should('be.visible');
     cy.contains('Tags').should('be.visible');
     cy.contains('Sort By').should('be.visible');
   });
 
-  it('should search for games by title and filter the list', () => {
-    // Check that a game that will be filtered out is visible first
-    cy.contains('The Witcher 3').should('be.visible');
+  it('should search for games by title (client-side)', () => {
+    cy.contains('Alpha Shooter').should('be.visible');
     
-    cy.get('input[placeholder="Search for games..."]').type('Valorant');
-    cy.wait(200); // Wait for client-side filtering
+    cy.get('input[placeholder="Search by name..."]').type('Beta');
+    cy.wait(500); // Wait for debounce
 
-    // Assert the correct game is shown
-    cy.contains('Valorant').should('be.visible');
-    // Assert the other game is no longer visible
-    cy.contains('The Witcher 3').should('not.exist');
+    cy.contains('Beta RPG').should('be.visible');
+    cy.contains('Alpha Shooter').should('not.exist');
   });
 
   it('should clear the search input using the "X" button', () => {
-    cy.get('input[placeholder="Search for games..."]').type('Test Query');
-    cy.get('input[placeholder="Search for games..."]').should('have.value', 'Test Query');
+    cy.get('input[placeholder="Search by name..."]').type('Test Query');
+    cy.get('input[placeholder="Search by name..."]').should('have.value', 'Test Query');
     
     cy.get('button[aria-label="Clear search"]').click();
     
-    cy.get('input[placeholder="Search for games..."]').should('have.value', '');
+    cy.get('input[placeholder="Search by name..."]').should('have.value', '');
   });
 
-  it('should filter by category and show active filter state', () => {
+  it('should filter by Category (triggers API refetch)', () => {
+    // Open Category Dropdown
     cy.contains('Category').parent().find('button').click();
-    cy.get('div[role="listbox"]').contains('Action').click();
     
-    // Assert the select value changed
-    cy.contains('Category').parent().find('button').should('contain', 'Action');
-    // Assert the "Clear Filters" button appears
+    // FIX: Use matchCase: false because data is "shooter" but UI shows "Shooter"
+    cy.get('div[role="listbox"]').contains('shooter', { matchCase: false }).click();
+    
+    // Wait for the refetch
+    cy.wait('@getGames');
+    
+    // Verify the dropdown button text updated (matchCase false again just to be safe)
+    cy.contains('Category').parent().find('button').should('contain.text', 'shooter');
+    
+    // Verify Clear Filters button appears
     cy.contains('Clear Filters').should('be.visible');
-    // Assert the header text changes
-    cy.contains('Found').should('be.visible');
   });
 
-  it('should filter by platform and show active filter state', () => {
+  it('should filter by Platform (triggers API refetch)', () => {
     cy.contains('Platform').parent().find('button').click();
-    cy.get('div[role="listbox"]').contains('PC').click();
+    cy.get('div[role="listbox"]').contains('Web Browser').click();
     
-    // Assert the select value changed
-    cy.contains('Platform').parent().find('button').should('contain', 'PC');
-    // Assert the "Clear Filters" button appears
-    cy.contains('Clear Filters').should('be.visible');
+    cy.wait('@getGames');
+    
+    cy.contains('Platform').parent().find('button').should('contain', 'Web Browser');
   });
 
-  it('should filter by tags and show active filter state', () => {
-    cy.contains('Multiplayer').click();
-    
-    // Assert the "Clear Filters" button appears
-    cy.contains('Clear Filters').should('be.visible');
-    cy.contains('Found').should('be.visible');
+  it('should filter by Tags (client-side)', () => {
+    // Open tags and select Shooter
+    cy.contains('div', 'Tags').parent().contains('Shooter').click();
 
-    // Add another tag
-    cy.contains('PvP').click();
-    cy.contains('Clear Filters').should('be.visible'); // Should still be visible
+    // "Alpha Shooter" (Genre: Shooter) should be visible
+    cy.contains('Alpha Shooter').should('be.visible');
+    // "Beta RPG" (Genre: RPG) should be hidden
+    cy.contains('Beta RPG').should('not.exist');
+
+    // Toggle off
+    cy.contains('div', 'Tags').parent().contains('Shooter').click();
+    cy.contains('Beta RPG').should('be.visible');
   });
 
-  it('should toggle a tag off and remove active filter state', () => {
-    // Ensure no filters are active
-    cy.contains('Clear Filters').should('not.exist');
+  it('should clear all filters and search when "Clear Filters" is clicked', () => {
+    // 1. Apply Search
+    cy.get('input[placeholder="Search by name..."]').type('Alpha');
     
-    // Toggle tag on
-    cy.contains('Multiplayer').click();
-    cy.contains('Clear Filters').should('be.visible');
-
-    // Toggle tag off
-    cy.contains('Multiplayer').click();
-    cy.contains('Clear Filters').should('not.exist');
-  });
-
-  it('should sort games and show active filter state', () => {
-    cy.contains('Sort By').parent().find('button').click();
-    cy.get('div[role="listbox"]').contains('Alphabetical').click();
-    
-    // Verify sorting select changed
-    cy.contains('Sort By').parent().find('button').should('contain', 'Alphabetical');
-    // Assert the "Clear Filters" button appears
-    cy.contains('Clear Filters').should('be.visible');
-  });
-
-  it('should clear all filters when "Clear Filters" is clicked', () => {
-    // Apply multiple filters
+    // 2. Apply Category (using matchCase fix)
     cy.contains('Category').parent().find('button').click();
-    cy.get('div[role="listbox"]').contains('Action').click();
-    cy.contains('Multiplayer').click();
-    cy.contains('Sort By').parent().find('button').click();
-    cy.get('div[role="listbox"]').contains('Alphabetical').click();
+    cy.get('div[role="listbox"]').contains('shooter', { matchCase: false }).click();
 
-    // Also type in search bar
-    cy.get('input[placeholder="Search for games..."]').type('Game');
-
-    // Verify filters are active
+    // Verify filters active
     cy.contains('Clear Filters').should('be.visible');
 
-    // Clear all
+    // 3. Click Clear
     cy.contains('Clear Filters').click();
 
-    // Verify filters are reset
+    // 4. Assertions
     cy.contains('Clear Filters').should('not.exist');
-    cy.contains('Category').parent().find('button').should('not.contain', 'Action');
-    cy.contains('Sort By').parent().find('button').should('contain', 'Popularity');
+    // Ensure dropdown text does NOT contain 'shooter' anymore
+    cy.contains('Category').parent().find('button').should('not.contain', 'shooter');
+    // Ensure search is cleared
+    cy.get('input[placeholder="Search by name..."]').should('have.value', '');
+  });
+
+  it('should display "No games found" when search yields no results', () => {
+    cy.get('input[placeholder="Search by name..."]').type('ImpossibleGameNameXYZ');
+    cy.wait(500);
+    cy.contains('No games found').should('be.visible');
+  });
+
+  it('should load more games on scroll (Infinite Scroll)', () => {
+    cy.get('.grid div[class*="group cursor-pointer"]').should('have.length', 12);
     
-    // Note: The search query is NOT cleared by "Clear Filters" based on the implementation
-    cy.get('input[placeholder="Search for games..."]').should('have.value', 'Game');
-  });
+    cy.scrollTo('bottom');
+    cy.wait(1000); 
 
-  it('should display a message when no games match the criteria', () => {
-    cy.get('input[placeholder="Search for games..."]').type('NonExistentGame123456789');
-    cy.contains('No games found matching your criteria').should('be.visible');
-  });
-
-  it('should display game cards', () => {
-    cy.get('.grid').find('div[class*="group cursor-pointer"]').should('have.length.greaterThan', 0);
-  });
-
-  it('should load more games on scroll when no filters are active', () => {
-    cy.get('.grid div[class*="group cursor-pointer"]').its('length').then((initialCount) => {
-      cy.scrollTo('bottom');
-      cy.wait(1000); // Wait for loading
-      cy.get('.grid div[class*="group cursor-pointer"]').should('have.length.greaterThan', initialCount);
-    });
+    cy.get('.grid div[class*="group cursor-pointer"]').should('have.length', 15);
+    cy.contains("You've reached the end of the list!").should('be.visible');
   });
 
   it('should navigate to game details when clicking a card', () => {
-    cy.get('.grid div[class*="group cursor-pointer"]').first().click();
-    cy.url().should('include', '/game/');
+    cy.contains('h3', 'Alpha Shooter').click();
+    cy.url().should('include', '/game/1');
   });
 });

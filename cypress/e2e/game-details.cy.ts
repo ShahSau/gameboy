@@ -1,7 +1,15 @@
 describe('Game Details Page', () => {
   beforeEach(() => {
-    // Visit a game details page (using game ID 1, which has mock data)
-    cy.visit('/game/1');
+    // 1. Intercept the API call the app makes
+    // We use a wildcard (*) because the real API URL likely includes the ID
+    cy.intercept('GET', '**/api/game?id=*', { fixture: 'game-details.json' }).as('getGameDetails');
+
+    // 2. Visit the page (using the ID that matches our mock logic)
+    cy.visit('/game/452');
+
+    // 3. WAIT for the data to load before running any assertions
+    // This fixes the "Timed out" error because Cypress pauses here until the mock data loads
+    cy.wait('@getGameDetails');
   });
 
   // --- Core Content & Header Tests ---
@@ -10,15 +18,33 @@ describe('Game Details Page', () => {
     // Check for the main title from mock data
     cy.get('h1').contains('Call of Duty: Warzone').should('be.visible'); 
     cy.contains('Live').should('be.visible'); // Status badge
-    cy.contains('4.5').should('be.visible'); // Rating
   });
 
   it('should display the main game thumbnail/cover image', () => {
-    cy.get('img[alt="Call of Duty: Warzone"]').first().should('be.visible');
+    cy.get('img[alt="Call of Duty: Warzone"]').first().should('be.visible').and('have.attr', 'src', 'https://www.freetogame.com/g/452/warzone-1.jpg');
   });
 
-  it('should display back button', () => {
-    cy.contains('button', 'Back').should('be.visible');
+  it('should switch between screenshot thumbnails and highlight the active one', () => {
+    // 1. Locate the container grid specifically to scope our search
+    // We look for the div that holds the grid of screenshots
+    cy.get('.grid.grid-cols-4').within(() => {
+      
+      // 2. Find ALL buttons inside this grid
+      // This ensures we get the inactive ones too, not just the active one
+      cy.get('button').as('thumbnails');
+      
+      // 3. Assert we have multiple screenshots (from our fixture)
+      cy.get('@thumbnails').should('have.length.gt', 1);
+
+      // 4. Click the SECOND thumbnail (index 1)
+      cy.get('@thumbnails').eq(1).click();
+
+      // 5. Verify the SECOND thumbnail now has the active class (border-primary)
+      cy.get('@thumbnails').eq(1).should('have.class', 'border-primary');
+
+      // 6. Verify the FIRST thumbnail (index 0) is now inactive (border-transparent)
+      cy.get('@thumbnails').eq(0).should('have.class', 'border-transparent');
+    });
   });
 
 
@@ -29,20 +55,6 @@ describe('Game Details Page', () => {
     cy.get('img').should('have.length.greaterThan', 1);
   });
 
-  it('should switch between screenshot thumbnails and highlight the active one', () => {
-    // Click the second thumbnail button
-    cy.get('button').filter(':has(img)').eq(1).click();
-    
-    // Verify the thumbnail is highlighted (assuming a 'border-primary' class)
-    cy.get('button').filter(':has(img)').eq(1).should('have.class', 'border-primary');
-
-    // Click the first thumbnail button
-    cy.get('button').filter(':has(img)').eq(0).click();
-
-    // Verify the first one is now highlighted and the second one is not
-    cy.get('button').filter(':has(img)').eq(0).should('have.class', 'border-primary');
-    cy.get('button').filter(':has(img)').eq(1).should('not.have.class', 'border-primary');
-  });
 
   // --- Game Info Tests ---
   

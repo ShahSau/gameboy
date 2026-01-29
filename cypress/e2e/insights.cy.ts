@@ -1,139 +1,103 @@
-// /cypress/e2e/insights.cy.ts
-
 describe('Insights Page', () => {
   beforeEach(() => {
+    // 1. Intercept the API call to force consistent test data
+    cy.intercept('GET', '**/api/games*', { fixture: 'insights-games.json' }).as('getGames');
+
+    // 2. Visit page
     cy.visit('/insights');
+
+    // 3. Wait for data to load so animations complete and DOM is stable
+    cy.wait('@getGames');
   });
 
-  it('should display the insights header', () => {
+  it('should display the insights header and descriptions', () => {
     cy.contains('Game Insights').should('be.visible');
-    cy.contains('Dashboard showing genre/platform analytics').should('be.visible');
+    // Updated text matcher based on your new component
+    cy.contains('Real-time analytics from our game library').should('be.visible');
   });
 
   it('should show drag to reorder hint', () => {
-    cy.contains('Drag to reorder sections').should('be.visible');
+    // Updated text matcher
+    cy.contains('Drag to reorder charts').should('be.visible');
   });
 
-  it('should display stats overview cards', () => {
-    cy.contains('Total Games').should('be.visible');
-    cy.contains('Active Players').should('be.visible');
-    cy.contains('New Releases').should('be.visible');
-    cy.contains('Top Rated').should('be.visible');
-  });
-
-  it('should display genre performance section', () => {
-    cy.contains('Genre Performance').should('be.visible');
-    cy.contains('Game distribution and player engagement by genre').should('be.visible');
-  });
-
-  it('should display games by tag chart', () => {
-    cy.contains('Games by Tag').should('be.visible');
-    cy.contains('Distribution of games across different tags').should('be.visible');
-  });
-
-  it('should display games by platform chart', () => {
-    cy.contains('Games by Platform').should('be.visible');
-    cy.contains('Number of games available on each platform').should('be.visible');
-  });
-
-  it('should display releases per year chart', () => {
-    cy.contains('Releases per Year').should('be.visible');
-    cy.contains('Game release trends over the years').should('be.visible');
-  });
-
-  it('should have tabs for platform analytics and top games', () => {
-    cy.contains('button', 'Platform Analytics').should('be.visible');
-    cy.contains('button', 'Top Games').should('be.visible');
-  });
-
-  it('should switch between tabs', () => {
-    // Check Platform Analytics tab
-    cy.contains('button', 'Platform Analytics').click();
-    // Check for a card title, not just 'PC' which might be in a chart
-    cy.contains('h3', 'PC').should('be.visible');
-    cy.contains('h3', 'PlayStation').should('be.visible');
-    
-    // Switch to Top Games tab
-    cy.contains('button', 'Top Games').click();
-    cy.contains('Top Performing Games').should('be.visible');
-    cy.contains('Valorant').should('be.visible');
-  });
-
-  it('should display charts with data', () => {
-    // Check if recharts SVG elements are rendered
-    cy.get('svg.recharts-surface').should('have.length.greaterThan', 0);
-  });
-
-  // --- New Tests Added ---
-
-  it('should display the main header', () => {
-    cy.get('header').should('be.visible');
-    cy.get('header').contains('span', 'GameBoy').should('be.visible');
-  });
-
-  it('should display correct content in stats cards', () => {
+  it('should display stats overview cards with correct mocked data', () => {
+    // Based on our fixture of 3 games
     cy.contains('div', 'Total Games')
       .siblings()
-      .contains('1,247') // Value
+      .contains('3') // We provided 3 games in the JSON
       .should('be.visible');
-      
-    cy.contains('div', 'Active Players')
+
+    cy.contains('div', 'New Releases (2024)')
       .siblings()
-      .contains('9.4M') // Value
+      .contains('1') // Only 1 game in 2024 in our JSON
+      .should('be.visible');
+      
+    // Check if other card labels exist
+    cy.contains('Active Players (Est.)').should('be.visible');
+    cy.contains('Avg Rating').should('be.visible');
+  });
+
+  it('should display "Genre Distribution" chart section', () => {
+    cy.contains('Genre Distribution').should('be.visible');
+    cy.contains('Top performing genres by game count').should('be.visible');
+
+    // Verify the data from our fixture appears in the list
+    // We had 1 Shooter, 1 RPG, 1 Strategy
+    cy.contains('Shooter').should('be.visible');
+    cy.contains('RPG').should('be.visible');
+    
+    // Check calculations (1 game / 3 total = 33%)
+    cy.contains('Shooter')
+      .closest('div[class*="space-y-2"]')
+      .within(() => {
+        cy.contains('1 games').should('be.visible');
+        cy.contains('33%').should('be.visible');
+      });
+  });
+
+  it('should display "Platform Availability" chart section', () => {
+    // Updated Title
+    cy.contains('Platform Availability').should('be.visible');
+    cy.contains('Where players can find these games').should('be.visible');
+    
+    // Verify Recharts rendered the bars
+    cy.get('.recharts-bar-rectangle').should('have.length.at.least', 1);
+  });
+
+  it('should display "Release History" chart section', () => {
+    // Updated Title
+    cy.contains('Release History (2010-2025)').should('be.visible');
+    
+    // Verify Recharts rendered the line
+    cy.get('.recharts-line').should('exist');
+  });
+
+ it('should display "Top Rated Games" list at the bottom', () => {
+    // 1. Scroll to the bottom card to trigger the Framer Motion 'whileInView' animation
+    cy.contains('Top Rated Games (All Time)').scrollIntoView();
+
+    // 2. Now check visibility (Cypress will retry this until the fade-in completes)
+    cy.contains('Top Rated Games (All Time)').should('be.visible');
+    cy.contains('Highest rated games based on community feedback').should('be.visible');
+
+    // Verify our mock games are in the list
+    cy.contains('Mock Shooter Game').should('be.visible');
+    cy.contains('Mock RPG Game').should('be.visible');
+
+    // Verify Genre badge is showing
+    cy.contains('Mock Shooter Game')
+      .closest('div[class*="group"]')
+      .find('p')
+      .contains('Shooter')
       .should('be.visible');
   });
-  
 
-  it('should display specific genre data in "Genre Performance"', () => {
-    cy.contains('span', 'Shooter')
-      .closest('div[class*="flex items-center justify-between"]')
-      .within(() => {
-        cy.contains('156 games').should('be.visible');
-        cy.contains('2.4M').should('be.visible');
-        cy.contains('+12%').should('be.visible');
-      });
-      
-    cy.contains('span', 'RPG')
-      .closest('div[class*="flex items-center justify-between"]')
-      .within(() => {
-        cy.contains('142 games').should('be.visible');
-        cy.contains('2.1M').should('be.visible');
-        cy.contains('+8%').should('be.visible');
-      });
+  it('should navigate to game details when clicking a top rated game', () => {
+    // Click on the first game from our mock
+    cy.contains('Mock Shooter Game').click();
+
+    // Verify URL change (id: 1 comes from the fixture)
+    cy.url().should('include', '/game/1');
   });
-
-  it('should display detailed platform analytics in its tab', () => {
-    cy.contains('button', 'Platform Analytics').click();
-    
-    cy.contains('h3', 'PC')
-      .closest('div[class*="p-6"]')
-      .within(() => {
-        cy.contains('span', 'Games').siblings().contains('421').should('be.visible');
-        cy.contains('span', 'Players').siblings().contains('4.2M').should('be.visible');
-        cy.contains('span', 'Market Share').siblings().contains('45%').should('be.visible');
-      });
-  });
-
-  it('should display detailed top games data in its tab', () => {
-    cy.contains('button', 'Top Games').click();
-    
-    cy.contains('h4', 'Valorant')
-      .closest('div[class*="flex items-center justify-between"]')
-      .within(() => {
-        cy.contains('1').should('be.visible'); // Rank
-        cy.contains('Shooter').should('be.visible'); // Genre
-        cy.contains('845K').should('be.visible'); // Players
-        cy.contains('9.2').should('be.visible'); // Rating
-      });
-
-    cy.contains('h4', 'Elden Ring')
-      .closest('div[class*="flex items-center justify-between"]')
-      .within(() => {
-        cy.contains('5').should('be.visible'); // Rank
-        cy.contains('RPG').should('be.visible'); // Genre
-        cy.contains('543K').should('be.visible'); // Players
-        cy.contains('9.5').should('be.visible'); // Rating
-      });
-  });
-
 });

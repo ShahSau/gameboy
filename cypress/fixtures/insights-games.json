@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Mock Shooter Game",
+    "thumbnail": "https://www.freetogame.com/g/1/thumbnail.jpg",
+    "genre": "Shooter",
+    "platform": "PC (Windows)",
+    "release_date": "2024-01-01",
+    "short_description": "Test desc"
+  },
+  {
+    "id": 2,
+    "title": "Mock RPG Game",
+    "thumbnail": "https://www.freetogame.com/g/2/thumbnail.jpg",
+    "genre": "RPG",
+    "platform": "Web Browser",
+    "release_date": "2022-05-05",
+    "short_description": "Test desc"
+  },
+  {
+    "id": 3,
+    "title": "Mock Strategy Game",
+    "thumbnail": "https://www.freetogame.com/g/3/thumbnail.jpg",
+    "genre": "Strategy",
+    "platform": "PC (Windows)",
+    "release_date": "2020-10-10",
+    "short_description": "Test desc"
+  }
+]
