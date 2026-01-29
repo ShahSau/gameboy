@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "build:dev": "vite build --mode development",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "npx cypress run",
-    "test:ui": "npx cypress open"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-collapsible": "^1.1.12",

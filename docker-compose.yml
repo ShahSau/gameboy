@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # Application service
+  gameboy-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: gameboy-app
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - gameboy-network
+    labels:
+      - "com.gameboy.description=Gameboy Application"
+      - "com.gameboy.version=1.0.0"
+
+  # Development service with hot reload
+  gameboy-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: gameboy-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./index.html:/app/index.html
+      - ./vite.config.ts:/app/vite.config.ts
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    networks:
+      - gameboy-network
+    profiles:
+      - dev
+
+  # Cypress E2E testing service
+  cypress:
+    image: cypress/included:13.6.0
+    container_name: gameboy-cypress
+    depends_on:
+      gameboy-app:
+        condition: service_healthy
+    environment:
+      - CYPRESS_baseUrl=http://gameboy-app:8080
+    volumes:
+      - ./cypress:/app/cypress
+      - ./cypress.config.ts:/app/cypress.config.ts
+      - ./cypress-results:/app/cypress/results
+      - ./cypress-screenshots:/app/cypress/screenshots
+      - ./cypress-videos:/app/cypress/videos
+    working_dir: /app
+    networks:
+      - gameboy-network
+    profiles:
+      - test
+
+  # Nginx reverse proxy (optional)
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: gameboy-nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - gameboy-app
+    networks:
+      - gameboy-network
+    profiles:
+      - proxy
+
+networks:
+  gameboy-network:
+    driver: bridge
+    name: gameboy-network
+
+volumes:
+  node_modules:
+  cypress-results:
+  cypress-screenshots:
+  cypress-videos:
