@@ -1,5 +1,3 @@
-# Multi-stage Dockerfile for Gameboy Application
-
 # Stage 1: Build stage
 FROM node:20-alpine AS builder
 
@@ -13,8 +11,8 @@ RUN apk add --no-cache libc6-compat
 COPY package*.json ./
 COPY bun.lockb* ./
 
-# Install dependencies
-RUN npm ci --only=production && \
+# --- FIX: Removed '--only=production' so tsc and vite are installed ---
+RUN npm ci && \
     npm cache clean --force
 
 # Copy source code
